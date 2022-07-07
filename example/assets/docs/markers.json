@@ -1,0 +1,9 @@
+[
+  {
+    "insert": "Lorem\n",
+    "attributes": {
+      "bold": true,
+      "marker": true
+    }
+  }
+]

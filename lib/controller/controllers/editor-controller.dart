@@ -331,6 +331,7 @@ class EditorController {
     _state.refreshEditor.refreshEditor();
   }
 
+  // Applies an attribute to a selection of text
   void formatSelection(AttributeM? attribute) {
     formatText(
       selection.start,
@@ -341,14 +342,18 @@ class EditorController {
 
   void moveCursorToStart() {
     updateSelection(
-      const TextSelection.collapsed(offset: 0),
+      const TextSelection.collapsed(
+        offset: 0,
+      ),
       ChangeSource.LOCAL,
     );
   }
 
   void moveCursorToPosition(int position) {
     updateSelection(
-      TextSelection.collapsed(offset: position),
+      TextSelection.collapsed(
+        offset: position,
+      ),
       ChangeSource.LOCAL,
     );
   }

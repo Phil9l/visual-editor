@@ -11,10 +11,10 @@ import '../../documents/models/nodes/line.model.dart';
 import '../../documents/models/nodes/text.model.dart';
 import '../../highlights/models/highlight.model.dart';
 import '../../selection/services/text-selection.utils.dart';
+import '../../shared/models/content-proxy-box-renderer.model.dart';
+import '../../shared/models/editable-box-renderer.model.dart';
 import '../../shared/state/editor.state.dart';
 import '../../shared/utils/platform.utils.dart';
-import '../models/content-proxy-box-renderer.model.dart';
-import '../models/editable-box-renderer.model.dart';
 import '../models/inline-code-style.model.dart';
 import '../models/text-line-slot.enum.dart';
 

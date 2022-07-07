@@ -128,13 +128,21 @@ Learn more about Visual Editor architecture and how to use the features.
 - **[Rules (WIP)](https://github.com/visual-space/visual-editor/blob/develop/lib/rules/rules.md)** - Rules execute behavior when certain condition are met.
 - **[Selection (WIP)](https://github.com/visual-space/visual-editor/blob/develop/lib/selection/selection.md)** - Rules execute behavior when certain condition are met.
 - **[Highlights](https://github.com/visual-space/visual-editor/blob/develop/lib/highlights/highlights.md)** - Renders temporary text markers sensitive to taps.
+- **[Markers](https://github.com/visual-space/visual-editor/blob/develop/lib/markers/markers.md)** - Renders permanent text markers sensitive to taps as part of the delta document.
 - **[Migration](https://github.com/visual-space/visual-editor/blob/develop/MIGRATING.md)** - A simple guide with instructions to migrate from Flutter Quill.
+- **[Changelog](https://github.com/visual-space/visual-editor/blob/develop/CHANGELOG.md)** - Journal of changes made to the visual editor.
   
 **For Contributors:**
 
 - **[State Store](https://github.com/visual-space/visual-editor/blob/develop/lib/shared/state-store.md)** - Explains the state store architecture and how to extend it.
 - **[Project Structure (WIP)](https://github.com/visual-space/visual-editor/blob/develop/lib/shared/project-structure.md)** - How the codebase is structured and split in modules.
 - **[Guidelines](https://github.com/visual-space/visual-editor/blob/develop/GUIDELINES.md)** - Coding guidelines for improving code quality and architecture clarity.
+
+## New Features
+These features have been added since forking from Quill:
+
+- **[Highlights](https://github.com/visual-space/visual-editor/blob/develop/lib/highlights/highlights.md)** - Highlights are temporary markings that can be displayed in the text editor without changing the underlying delta document. For example if you want to implement a search feature, you can use the highlights API to display the results and then remove them once the user exits the search text feature.
+- **[Markers](https://github.com/visual-space/visual-editor/blob/develop/lib/markers/markers.md)** - Unlike highlights, the markers are permanently defined in the delta document. Several types of markers can be defined in the editor. Authors will be able to add them from the toolbar Markers dropdown. The editor can be configured to render some or all markers on demand. Markers are useful for labelling different areas of text for various purposes (introductory, reminder, needs review, etc).  
 
 ## Roadmap & Known Issues
 These features are currently under developed for [Visual Space]. As soon as they are stable we will release them in the open source repository. We've made an effort to document all the known issues and provide priority and status labels to give you a better understanding when the improvements will be delivered.
@@ -164,10 +172,10 @@ These features are currently under developed for [Visual Space]. As soon as they
 Send us a message on [Visual Editor Discord] if you want your app to be listed here.
 
 ## Additional Resources
-[Word Processing Terminology 1](http://w.sunybroome.edu/basic-computer-skills/functions/word_processing/2wp_terminology.html) • 
-[Word Processing Terminology 2](https://www.computerhope.com/jargon/word-processor.htm) •
 [QuillJs Delta](https://github.com/quilljs/delta) •
-[Designing The Delta Format](https://quilljs.com/guides/designing-the-delta-format)
+[Designing The Delta Format](https://quilljs.com/guides/designing-the-delta-format) • 
+[Word Processing Terminology 1](http://w.sunybroome.edu/basic-computer-skills/functions/word_processing/2wp_terminology.html) • 
+[Word Processing Terminology 2](https://www.computerhope.com/jargon/word-processor.htm)
 
 [Quill]: https://quilljs.com/docs/formats
 [Quilljs Delta]: https://github.com/quilljs/delta

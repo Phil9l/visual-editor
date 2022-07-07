@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../../controller/controllers/editor-controller.dart';
-import '../../../documents/models/attribute.model.dart';
-import '../../../documents/models/style.model.dart';
-import '../../../shared/models/editor-icon-theme.model.dart';
-import '../../../shared/state/editor-state-receiver.dart';
-import '../../../shared/state/editor.state.dart';
+import '../../controller/controllers/editor-controller.dart';
+import '../../documents/models/attribute.model.dart';
+import '../../documents/models/style.model.dart';
+import '../models/editor-icon-theme.model.dart';
+import '../state/editor-state-receiver.dart';
+import '../state/editor.state.dart';
 
 // Btn shortname was used to avoid collision with Flutter DropdownButton.
 // ignore: must_be_immutable
@@ -80,7 +80,9 @@ class _DropdownBtnState<T> extends State<DropdownBtn<T>> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(height: widget.iconSize * 1.81),
+      constraints: BoxConstraints.tightFor(
+        height: widget.iconSize * 1.81,
+      ),
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(
@@ -93,12 +95,40 @@ class _DropdownBtnState<T> extends State<DropdownBtn<T>> {
         hoverElevation: widget.hoverElevation,
         highlightElevation: widget.hoverElevation,
         onPressed: _showMenu,
-        child: _buildContent(context),
+        child: _selector(context),
       ),
     );
   }
 
-  // === PRIVATE ===
+  Widget _selector(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            _currentValue.toString(),
+            style: TextStyle(
+              fontSize: widget.iconSize / 1.15,
+              color: widget.iconTheme?.iconUnselectedColor ??
+                  theme.iconTheme.color,
+            ),
+          ),
+          const SizedBox(width: 3),
+          Icon(
+            Icons.arrow_drop_down,
+            size: widget.iconSize / 1.15,
+            color:
+                widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+          )
+        ],
+      ),
+    );
+  }
+
+  // === UTILS ===
 
   void _didChangeEditingValue() {
     setState(() => _currentValue = _getKeyName(_selectionStyle.attributes));
@@ -119,6 +149,7 @@ class _DropdownBtnState<T> extends State<DropdownBtn<T>> {
             .key;
       }
     }
+
     return widget.rawitemsmap.keys
         .elementAt(widget.initialValue as int)
         .toString();
@@ -149,11 +180,14 @@ class _DropdownBtnState<T> extends State<DropdownBtn<T>> {
       color: popupMenuTheme.color, // widget.color ?? popupMenuTheme.color,
       // captureInheritedThemes: widget.captureInheritedThemes,
     ).then((newValue) {
-      if (!mounted) return null;
+      if (!mounted) {
+        return null;
+      }
       if (newValue == null) {
         // if (widget.onCanceled != null) widget.onCanceled();
         return null;
       }
+
       setState(() {
         _currentValue = widget.rawitemsmap.entries
             .firstWhere((element) => element.value == newValue,
@@ -162,32 +196,5 @@ class _DropdownBtnState<T> extends State<DropdownBtn<T>> {
         widget.onSelected(newValue);
       });
     });
-  }
-
-  Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            _currentValue.toString(),
-            style: TextStyle(
-              fontSize: widget.iconSize / 1.15,
-              color: widget.iconTheme?.iconUnselectedColor ??
-                  theme.iconTheme.color,
-            ),
-          ),
-          const SizedBox(width: 3),
-          Icon(
-            Icons.arrow_drop_down,
-            size: widget.iconSize / 1.15,
-            color:
-                widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
-          )
-        ],
-      ),
-    );
   }
 }

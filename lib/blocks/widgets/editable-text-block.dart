@@ -107,7 +107,7 @@ class EditableTextBlock extends StatelessWidget {
 
       final editableTextLine = EditableTextLine(
         line: line,
-        leading: _buildLeading(
+        leading: _lineLeadingWidget(
           context,
           line,
           index,
@@ -150,7 +150,8 @@ class EditableTextBlock extends StatelessWidget {
     );
   }
 
-  Widget? _buildLeading(
+  // Lines that are part of blocks might have also a dedicated content type
+  Widget? _lineLeadingWidget(
     BuildContext context,
     LineM line,
     int index,
@@ -275,6 +276,8 @@ class EditableTextBlock extends StatelessWidget {
       }
     } else {
       late VerticalSpacing lineSpacing;
+
+      // TODO Convert to switch
       if (attrs.containsKey(AttributeM.blockQuote.key)) {
         lineSpacing = defaultStyles!.quote!.lineSpacing;
       } else if (attrs.containsKey(AttributeM.indent.key)) {

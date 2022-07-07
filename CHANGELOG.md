@@ -1,4 +1,7 @@
-## [0.0.3]
+## [0.4.0]
+* Added custom markers. Multiple marker types can be defined. The client app can define callbacks for hovering the markers.
+
+## [0.3.0]
 * Cleaning up editor.dart
 * Improved docs
 * Break editor.dart in multiple files
@@ -22,10 +25,10 @@
 * Fix the placeholder is not displayed bug
 * The caret is no longer displayed in readonly mode. The `showCursor` configuration option for `VisualEditor` was removed. It makes no sense to have the cared showing up in readonly mode. Or the caret missing in editable mode.
 
-## [0.0.2]
+## [0.2.0]
 * Custom highlights
 
-## [0.0.1]
+## [0.1.0]
 * Rich text editor based on Flutter Quill Delta.
 
 Join on [discord](https://discord.gg/XpGygmXde4) to get advice and help or follow us on [YouTube Visual Coding](https://www.youtube.com/channel/UC2-5lfNbbErIds0Iuai8yfA) to learn more about the architecture of Visual Editor and other Flutter apps.

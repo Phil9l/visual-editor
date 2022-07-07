@@ -8,11 +8,11 @@ import '../../shared/models/editor-icon-theme.model.dart';
 import '../../shared/widgets/arrow-scrollable-button-list.dart';
 import '../../shared/widgets/quill-icon-button.dart';
 import '../models/editor-custom-icon.dart';
+import '../models/font-sizes.const.dart';
 import '../models/media-picker.type.dart';
 import 'buttons/camera-button.dart';
 import 'buttons/clear-format-button.dart';
 import 'buttons/color-button.dart';
-import 'buttons/dropdown-button.dart';
 import 'buttons/history-button.dart';
 import 'buttons/image-button.dart';
 import 'buttons/indent-button.dart';
@@ -22,6 +22,7 @@ import 'buttons/select-header-style-button.dart';
 import 'buttons/toggle-check-list-button.dart';
 import 'buttons/toggle-style-button.dart';
 import 'buttons/video-button.dart';
+import 'dropdowns/sizes-dropdown.dart';
 
 export '../../embeds/services/image-video.utils.dart';
 export '../../shared/widgets/quill-icon-button.dart';
@@ -173,20 +174,7 @@ class EditorToolbar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     // Default font size values
-    final fontSizes = fontSizeValues ??
-        {
-          'Default': 0,
-          '10': 10,
-          '12': 12,
-          '14': 14,
-          '16': 16,
-          '18': 18,
-          '20': 20,
-          '24': 24,
-          '28': 28,
-          '32': 32,
-          '48': 48
-        };
+    final fontSizes = fontSizeValues ?? FONT_SIZES;
 
     return EditorToolbar(
       key: key,
@@ -214,34 +202,12 @@ class EditorToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
           ),
         if (showFontSize)
-          DropdownBtn(
-            iconTheme: iconTheme,
-            iconSize: toolbarIconSize,
-            attribute: AttributeM.size,
+          SizesDropdown(
+            fontSizes: fontSizes,
             controller: controller,
-            items: [
-              for (MapEntry<String, int> fontSize in fontSizes.entries)
-                PopupMenuItem<int>(
-                  key: ValueKey(fontSize.key),
-                  value: fontSize.value,
-                  child: Text(fontSize.key.toString()),
-                ),
-            ],
-            onSelected: (newSize) {
-              if ((newSize != null) && (newSize as int > 0)) {
-                controller
-                    .formatSelection(AttributeM.fromKeyValue('size', newSize));
-              }
-              if (newSize as int == 0) {
-                controller
-                    .formatSelection(AttributeM.fromKeyValue('size', null));
-              }
-            },
-            rawitemsmap: fontSizes,
-            initialValue: (initialFontSizeValue != null) &&
-                    (initialFontSizeValue <= fontSizes.length - 1)
-                ? initialFontSizeValue
-                : 0,
+            toolbarIconSize: toolbarIconSize,
+            iconTheme: iconTheme,
+            initialFontSizeValue: initialFontSizeValue ?? 11,
           ),
         if (showBoldButton)
           ToggleStyleButton(

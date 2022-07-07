@@ -5,6 +5,7 @@ import 'attribute-scope.enum.dart';
 import 'attribute.model.dart';
 
 // Collection of style attributes
+// TODO Improve doc
 class StyleM {
   StyleM() : _attributes = <String, AttributeM>{};
 
@@ -25,6 +26,7 @@ class StyleM {
         attr ?? AttributeM(key, AttributeScope.IGNORE, value),
       );
     });
+
     return StyleM.attr(result);
   }
 
@@ -40,7 +42,8 @@ class StyleM {
   Iterable<String> get keys => _attributes.keys;
 
   Iterable<AttributeM> get values => _attributes.values.sorted(
-        (a, b) => AttributeM.getRegistryOrder(a) - AttributeM.getRegistryOrder(b),
+        (a, b) =>
+            AttributeM.getRegistryOrder(a) - AttributeM.getRegistryOrder(b),
       );
 
   Map<String, AttributeM> get attributes => _attributes;
@@ -120,6 +123,7 @@ class StyleM {
   StyleM put(AttributeM attribute) {
     final m = Map<String, AttributeM>.from(attributes);
     m[attribute.key] = attribute;
+
     return StyleM.attr(m);
   }
 

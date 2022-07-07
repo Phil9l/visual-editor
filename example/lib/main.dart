@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'pages/all-styles.page.dart';
 import 'pages/custom-toolbar.page.dart';
+import 'pages/markers.page.dart';
 import 'pages/multiple-editors.page.dart';
 import 'pages/placeholder.page.dart';
 import 'pages/read-only.page.dart';
@@ -16,10 +17,12 @@ void main() {
 class DemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('+++\n\n');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Visual Editor Demo',
-      initialRoute: '/all-styles',
+      // initialRoute: '/all-styles',
+      initialRoute: '/markers',
 
       // TODO Add examples for:
       // Custom styles
@@ -31,6 +34,7 @@ class DemoApp extends StatelessWidget {
         '/multiple-editors': (context) => MultipleEditorsPage(),
         '/custom-toolbar': (context) => CustomToolbarPage(),
         '/placeholder': (context) => PlaceholderPage(),
+        '/markers': (context) => MarkersPage(),
       },
     );
   }

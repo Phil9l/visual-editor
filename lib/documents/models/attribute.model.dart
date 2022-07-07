@@ -5,17 +5,20 @@ import 'package:quiver/core.dart';
 import 'attribute-scope.enum.dart';
 import 'styling-attributes.dart';
 
+// Attributes defined the characteristics of text.
+// The delta document stores attributes for each operation.
 class AttributeM<T> {
+  final String key;
+  final AttributeScope scope;
+  final T value;
+
   AttributeM(
     this.key,
     this.scope,
     this.value,
   );
 
-  /// Unique key of this attribute.
-  final String key;
-  final AttributeScope scope;
-  final T value;
+  // === REGISTRY ===
 
   static final Map<String, AttributeM> _registry = LinkedHashMap.of({
     AttributeM.bold.key: AttributeM.bold,
@@ -44,6 +47,8 @@ class AttributeM<T> {
     AttributeM.script.key: AttributeM.script,
   });
 
+  // === ATTRIBUTES ===
+
   static final BoldAttributeM bold = BoldAttributeM();
 
   static final ItalicAttributeM italic = ItalicAttributeM();
@@ -52,7 +57,8 @@ class AttributeM<T> {
 
   static final UnderlineAttributeM underline = UnderlineAttributeM();
 
-  static final StrikeThroughAttributeM strikeThrough = StrikeThroughAttributeM();
+  static final StrikeThroughAttributeM strikeThrough =
+      StrikeThroughAttributeM();
 
   static final InlineCodeAttributeM inlineCode = InlineCodeAttributeM();
 
@@ -100,6 +106,8 @@ class AttributeM<T> {
 
   static const String mobileAlignment = 'mobileAlignment';
 
+  // === TYPES ===
+
   static final Set<String> inlineKeys = {
     AttributeM.bold.key,
     AttributeM.italic.key,
@@ -137,6 +145,8 @@ class AttributeM<T> {
     AttributeM.codeBlock.key,
     AttributeM.blockQuote.key,
   });
+
+  // === ALIASES ===
 
   static AttributeM<int?> get h1 => HeaderAttributeM(level: 1);
 
@@ -179,6 +189,8 @@ class AttributeM<T> {
 
   // "attributes":{"indent":3"}
   static AttributeM<int?> get indentL3 => IndentAttributeM(level: 3);
+
+  // === UTILS ===
 
   static AttributeM<int?> getIndentLevel(int? level) {
     if (level == 1) {

@@ -196,6 +196,7 @@ class VisualEditorState extends State<VisualEditor>
                       child: _overlayTargetForMobileToolbar(
                         child: _editorRenderer(
                           document: document,
+                          // This is where the document elements are rendered
                           children: _documentService.documentBlocsAndLines(
                             state: widget._state,
                             document: document,
