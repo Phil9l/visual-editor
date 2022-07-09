@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -42,9 +43,9 @@ class _ArrowScrollableButtonListState extends State<ArrowScrollableButtonList>
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        _buildLeftArrow(),
-        _buildScrollableList(),
-        _buildRightColor(),
+        _leftArrow(),
+        _scrollableList(),
+        _rightArrow(),
       ],
     );
   }
@@ -70,7 +71,7 @@ class _ArrowScrollableButtonListState extends State<ArrowScrollableButtonList>
     });
   }
 
-  Widget _buildLeftArrow() {
+  Widget _leftArrow() {
     return SizedBox(
       width: 8,
       child: Transform.translate(
@@ -86,11 +87,11 @@ class _ArrowScrollableButtonListState extends State<ArrowScrollableButtonList>
     );
   }
 
-  Widget _buildScrollableList() {
+  Widget _scrollableList() {
     return Expanded(
-      child: ScrollConfiguration(
+        child: ScrollConfiguration(
         // Remove the glowing effect, as we already have the arrow indicators
-        behavior: _NoGlowBehavior(),
+        behavior: _ScrollBehavior(),
 
         // The CustomScrollView is necessary so that the children are not stretched to the height of the buttons,
         // https://bit.ly/3uC3bjI
@@ -101,18 +102,21 @@ class _ArrowScrollableButtonListState extends State<ArrowScrollableButtonList>
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: widget.buttons,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: widget.buttons,
+                ),
               ),
             )
           ],
         ),
-      ),
+        ),
     );
   }
 
-  Widget _buildRightColor() {
+  Widget _rightArrow() {
     return SizedBox(
       width: 8,
       child: Transform.translate(
@@ -129,8 +133,9 @@ class _ArrowScrollableButtonListState extends State<ArrowScrollableButtonList>
   }
 }
 
-// ScrollBehavior without the Material glow effect.
-class _NoGlowBehavior extends ScrollBehavior {
+class _ScrollBehavior extends ScrollBehavior {
+
+  // Delete the Material glow effect.
   @override
   Widget buildViewportChrome(
     context,
@@ -138,4 +143,11 @@ class _NoGlowBehavior extends ScrollBehavior {
     axisDirection,
   ) =>
       child;
+
+  // Draggable scroll for mobile
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
