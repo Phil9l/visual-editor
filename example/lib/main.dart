@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 
 import 'pages/all-styles.page.dart';
 import 'pages/custom-toolbar.page.dart';
+import 'pages/delta-sandbox.page.dart';
 import 'pages/multiple-editors.page.dart';
 import 'pages/placeholder.page.dart';
 import 'pages/read-only.page.dart';
@@ -31,6 +33,7 @@ class DemoApp extends StatelessWidget {
         '/multiple-editors': (context) => MultipleEditorsPage(),
         '/custom-toolbar': (context) => CustomToolbarPage(),
         '/placeholder': (context) => PlaceholderPage(),
+        '/delta-sandbox': (context) => DeltaSandbox(),
       },
     );
   }

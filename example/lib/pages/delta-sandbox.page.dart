@@ -1,40 +1,44 @@
-import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:visual_editor/visual-editor.dart';
 
 import '../const/sample-highlights.const.dart';
-import '../services/editor.service.dart';
 import '../widgets/demo-scaffold.dart';
 import '../widgets/loading.dart';
 
-// Demo of all the styles that can be applied to a document.
-class AllStylesPage extends StatefulWidget {
+class DeltaSandbox extends StatefulWidget {
+  const DeltaSandbox({Key? key}) : super(key: key);
+
   @override
-  _AllStylesPageState createState() => _AllStylesPageState();
+  State<DeltaSandbox> createState() => _DeltaSandboxState();
 }
 
-class _AllStylesPageState extends State<AllStylesPage> {
-  final _editorService = EditorService();
-
-  EditorController? _controller;
-  final FocusNode _focusNode = FocusNode();
+class _DeltaSandboxState extends State<DeltaSandbox> {
+  EditorController? _visualEditorController;
+  late TextEditingController _jsonEditorController;
+  final _focusNode = FocusNode();
 
   @override
   void initState() {
     _loadDocument();
+    _jsonEditorController = TextEditingController();
     super.initState();
   }
 
   @override
+  void dispose() {
+    _jsonEditorController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => _scaffold(
-        children: _controller != null
+        children: _visualEditorController != null
             ? [
                 _editor(),
-                _toolbar(),
+                _deltaDocument(),
               ]
             : [
                 Loading(),
@@ -42,13 +46,13 @@ class _AllStylesPageState extends State<AllStylesPage> {
       );
 
   Widget _scaffold({required List<Widget> children}) => DemoScaffold(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: children,
         ),
       );
 
-  Widget _editor() => Flexible(
+  Widget _editor() => Expanded(
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.only(
@@ -56,7 +60,7 @@ class _AllStylesPageState extends State<AllStylesPage> {
             right: 16,
           ),
           child: VisualEditor(
-            controller: _controller!,
+            controller: _visualEditorController!,
             scrollController: ScrollController(),
             focusNode: _focusNode,
             config: EditorConfigM(
@@ -66,23 +70,16 @@ class _AllStylesPageState extends State<AllStylesPage> {
         ),
       );
 
-  Widget _toolbar() => Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 8,
-        ),
-        child: EditorToolbar.basic(
-          controller: _controller!,
-          onImagePickCallback: _editorService.onImagePickCallback,
-          onVideoPickCallback:
-              kIsWeb ? _editorService.onVideoPickCallback : null,
-          filePickImpl: _editorService.isDesktop()
-              ? _editorService.openFileSystemPickerForDesktop
-              : null,
-          webImagePickImpl: _editorService.webImagePickImpl,
-          // Uncomment to provide a custom "pick from" dialog.
-          // mediaPickSettingSelector: _editorService.selectMediaPickSettingE,
-          showAlignmentButtons: true,
+  Widget _deltaDocument() => Expanded(
+        child: _editorTitle('Delta Document'),
+      );
+
+  Widget _editorTitle(String title) => Text(
+        title,
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey.shade800,
         ),
       );
 
@@ -93,7 +90,7 @@ class _AllStylesPageState extends State<AllStylesPage> {
     final document = DocumentM.fromJson(jsonDecode(result));
 
     setState(() {
-      _controller = EditorController(
+      _visualEditorController = EditorController(
         document: document,
         selection: const TextSelection.collapsed(offset: 0),
         highlights: SAMPLE_HIGHLIGHTS,
